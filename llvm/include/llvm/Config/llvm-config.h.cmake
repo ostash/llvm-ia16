@@ -78,6 +78,9 @@
 /* Define if the DirectX target is built in */
 #cmakedefine01 LLVM_HAS_DIRECTX_TARGET
 
+/* Define if the IA16 target is built in */
+#cmakedefine01 LLVM_HAS_IA16_TARGET
+
 /* Define if the Hexagon target is built in */
 #cmakedefine01 LLVM_HAS_HEXAGON_TARGET
 
