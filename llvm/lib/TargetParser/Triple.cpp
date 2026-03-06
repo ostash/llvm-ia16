@@ -42,6 +42,7 @@ StringRef Triple::getArchTypeName(ArchType Kind) {
   case hexagon:        return "hexagon";
   case hsail64:        return "hsail64";
   case hsail:          return "hsail";
+  case ia16:           return "ia16";
   case kalimba:        return "kalimba";
   case lanai:          return "lanai";
   case loongarch32:    return "loongarch32";
@@ -487,6 +488,7 @@ Triple::ArchType Triple::getArchTypeForLLVMName(StringRef Name) {
       .Case("riscv32be", riscv32be)
       .Case("riscv64be", riscv64be)
       .Case("hexagon", hexagon)
+      .Case("ia16", ia16)
       .Case("sparc", sparc)
       .Case("sparcel", sparcel)
       .Case("sparcv9", sparcv9)
@@ -676,6 +678,7 @@ static Triple::ArchType parseArch(StringRef ArchName) {
                   "dxilv1.9"},
                  Triple::dxil)
           .Case("xtensa", Triple::xtensa)
+          .Case("ia16", Triple::ia16)
           .Default(Triple::UnknownArch);
 
   // Some architectures require special parsing logic just to compute the
@@ -1068,6 +1071,10 @@ static Triple::ObjectFormatType getDefaultFormat(const Triple &T) {
 
   case Triple::dxil:
     return Triple::DXContainer;
+
+  case Triple::ia16:
+    // NOTE: Need to put something to MCContext constructor happy.
+    return Triple::ELF;
   }
   llvm_unreachable("unknown architecture");
 }
@@ -1737,6 +1744,7 @@ unsigned Triple::getArchPointerBitWidth(llvm::Triple::ArchType Arch) {
     return 0;
 
   case llvm::Triple::avr:
+  case llvm::Triple::ia16:
   case llvm::Triple::msp430:
     return 16;
 
@@ -1844,6 +1852,7 @@ Triple Triple::get32BitArchVariant() const {
   case Triple::avr:
   case Triple::bpfeb:
   case Triple::bpfel:
+  case Triple::ia16:
   case Triple::msp430:
   case Triple::systemz:
   case Triple::ve:
@@ -1928,6 +1937,7 @@ Triple Triple::get64BitArchVariant() const {
   case Triple::csky:
   case Triple::dxil:
   case Triple::hexagon:
+  case Triple::ia16:
   case Triple::kalimba:
   case Triple::lanai:
   case Triple::m68k:
@@ -2017,6 +2027,7 @@ Triple Triple::getBigEndianArchVariant() const {
   case Triple::hexagon:
   case Triple::hsail64:
   case Triple::hsail:
+  case Triple::ia16:
   case Triple::kalimba:
   case Triple::loongarch32:
   case Triple::loongarch64:
@@ -2130,6 +2141,7 @@ bool Triple::isLittleEndian() const {
   case Triple::hexagon:
   case Triple::hsail64:
   case Triple::hsail:
+  case Triple::ia16:
   case Triple::kalimba:
   case Triple::loongarch32:
   case Triple::loongarch64:
@@ -2173,6 +2185,8 @@ unsigned Triple::getDefaultWCharSize() const {
   if (isOSWindows() || isWindowsCygwinEnvironment() || isPS() || isUEFI())
     return 2;
   if (isOSAIX() && isArch32Bit())
+    return 2;
+  if (getArch() == Triple::ia16)
     return 2;
   return 4;
 }
