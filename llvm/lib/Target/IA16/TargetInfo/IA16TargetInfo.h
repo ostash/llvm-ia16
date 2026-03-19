@@ -13,6 +13,7 @@ namespace llvm {
 class Target;
 
 Target &getTheIA16Target();
+
 } // namespace llvm
 
-#endif
+#endif // LLVM_LIB_TARGET_IA16_TARGETINFO_IA16TARGETINFO_H

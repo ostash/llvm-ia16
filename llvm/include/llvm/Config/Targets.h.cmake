@@ -39,6 +39,9 @@
 /* Define if the Hexagon target is built in */
 #cmakedefine01 LLVM_HAS_HEXAGON_TARGET
 
+/* Define if the IA16 target is built in */
+#cmakedefine01 LLVM_HAS_IA16_TARGET
+
 /* Define if the Lanai target is built in */
 #cmakedefine01 LLVM_HAS_LANAI_TARGET
 

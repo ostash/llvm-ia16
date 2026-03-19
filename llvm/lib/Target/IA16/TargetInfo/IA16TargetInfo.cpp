@@ -5,19 +5,21 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
+#include "TargetInfo/IA16TargetInfo.h"
 
 #include "llvm/MC/TargetRegistry.h"
 #include "llvm/TargetParser/Triple.h"
 
-using namespace llvm;
-
 namespace llvm {
+
 Target &getTheIA16Target() {
   static Target TheIA16Target;
   return TheIA16Target;
 }
+
 } // namespace llvm
 
 extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeIA16TargetInfo() {
-  RegisterTarget<Triple::ia16> X(getTheIA16Target(), "ia16", "IA-16", "IA16");
+  llvm::RegisterTarget<llvm::Triple::ia16, /*HasJIT=*/false> X(
+      llvm::getTheIA16Target(), "ia16", "Intel 16-bit x86", "IA16");
 }

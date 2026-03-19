@@ -5,26 +5,30 @@
 // SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
 //
 //===----------------------------------------------------------------------===//
-//
-// This class prints an IA16 MCInst to a .s file.
-//
-//===----------------------------------------------------------------------===//
+#include "MCTargetDesc/IA16InstPrinter.h"
 
-#include "IA16InstPrinter.h"
 #include "llvm/MC/MCAsmInfo.h"
-#include "llvm/MC/MCExpr.h"
 #include "llvm/MC/MCInst.h"
-#include "llvm/Support/ErrorHandling.h"
 
-using namespace llvm;
+namespace llvm {
 
-#define DEBUG_TYPE "asm-printer"
-
-// Include the auto-generated portion of the assembly writer.
+// Include the tblgen-generated portion of the assembly writer.
+// TODO: define PRINT_ALIAS_INSTR?
 #include "IA16GenAsmWriter.inc"
 
-void IA16InstPrinter::printRegName(raw_ostream &O, MCRegister Reg) {
-  O << getRegisterName(Reg);
+void IA16InstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
+                                   raw_ostream &O) {
+  // TODO: X86 also handles immediate via direct print and expression via
+  // MAI.printExpr()
+  const MCOperand &Op = MI->getOperand(OpNo);
+  if (Op.isReg()) {
+    O << getRegisterName(Op.getReg());
+  } else {
+    // TODO: this should be removed when we are sure that all operand types are
+    // supported
+    Op.print(O);
+    llvm_unreachable("Unknown operand");
+  }
 }
 
 void IA16InstPrinter::printInst(const MCInst *MI, uint64_t Address,
@@ -34,23 +38,4 @@ void IA16InstPrinter::printInst(const MCInst *MI, uint64_t Address,
   printAnnotation(O, Annot);
 }
 
-void IA16InstPrinter::printOperand(const MCInst *MI, unsigned OpNo,
-                                   raw_ostream &O) {
-  const MCOperand &Op = MI->getOperand(OpNo);
-  if (Op.isReg()) {
-    printRegName(O, Op.getReg());
-  } else if (Op.isImm()) {
-    O << Op.getImm();
-  } else if (Op.isExpr()) {
-    MAI.printExpr(O, *Op.getExpr());
-  } else {
-    llvm_unreachable("Unknown operand");
-  }
-}
-
-void IA16InstPrinter::printMemOperand(const MCInst *MI, unsigned OpNo,
-                                      raw_ostream &O) {
-  O << "[";
-  printOperand(MI, OpNo, O);
-  O << "]";
-}
+} // namespace llvm
