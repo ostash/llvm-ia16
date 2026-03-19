@@ -10,18 +10,25 @@
 // of machine-dependent LLVM code to the IA-16 assembly language.
 //
 //===----------------------------------------------------------------------===//
+#include "TargetInfo/IA16TargetInfo.h"
 
+#include "llvm/CodeGen/AsmPrinter.h"
+#include "llvm/MC/TargetRegistry.h"
+#include "llvm/MC/MCStreamer.h"
+
+#if 0
 #include "IA16.h"
 #include "IA16TargetMachine.h"
-#include "TargetInfo/IA16TargetInfo.h"
-#include "llvm/CodeGen/AsmPrinter.h"
 #include "llvm/CodeGen/MachineInstr.h"
-#include "llvm/MC/MCStreamer.h"
-#include "llvm/MC/TargetRegistry.h"
+
+
 
 using namespace llvm;
 
 #define DEBUG_TYPE "asm-printer"
+#endif 
+
+namespace llvm {
 
 namespace {
 class IA16AsmPrinter : public AsmPrinter {
@@ -30,12 +37,14 @@ public:
                           std::unique_ptr<MCStreamer> Streamer)
       : AsmPrinter(TM, std::move(Streamer)) {}
 
-  StringRef getPassName() const override { return "IA16 Assembly Printer"; }
+  // StringRef getPassName() const override { return "IA16 Assembly Printer"; }
 
-  void emitInstruction(const MachineInstr *MI) override;
+  // void emitInstruction(const MachineInstr *MI) override;
 };
 } // namespace
+}
 
+#if 0
 void IA16AsmPrinter::emitInstruction(const MachineInstr *MI) {
   MCInst TmpInst;
   TmpInst.setOpcode(MI->getOpcode());
@@ -52,7 +61,9 @@ void IA16AsmPrinter::emitInstruction(const MachineInstr *MI) {
 
   EmitToStreamer(*OutStreamer, TmpInst);
 }
+#endif
 
 extern "C" LLVM_EXTERNAL_VISIBILITY void LLVMInitializeIA16AsmPrinter() {
-  RegisterAsmPrinter<IA16AsmPrinter> X(getTheIA16Target());
+  llvm::RegisterAsmPrinter<llvm::IA16AsmPrinter> X(llvm::getTheIA16Target());
 }
+

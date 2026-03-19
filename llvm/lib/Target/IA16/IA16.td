@@ -13,16 +13,18 @@
 include "llvm/Target/Target.td"
 
 include "IA16RegisterInfo.td"
-include "IA16InstrFormats.td"
+//include "IA16InstrFormats.td"
 include "IA16InstrInfo.td"
 include "IA16CallingConv.td"
 
 def IA16InstrInfo : InstrInfo;
 
-class Proc<string Name, list<SubtargetFeature> Features>
- : Processor<Name, NoItineraries, Features>;
+// class Proc<string Name, list<SubtargetFeature> Features>
+// : Processor<Name, NoItineraries, Features>;
 
-def : Proc<"generic", []>;
+// def : Proc<"generic", []>;
+
+def : Processor<"generic", NoItineraries, []>;
 
 defm : RemapAllTargetPseudoPointerOperands<GR16>;
 

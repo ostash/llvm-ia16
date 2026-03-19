@@ -8,9 +8,11 @@
 // This describes the calling conventions for IA16 architecture.
 //===----------------------------------------------------------------------===//
 
+def CSR_All : CalleeSavedRegs<(add AX)>;
+
 // Minimal calling convention: pass arguments in AX, BX, CX, DX
 def CC_IA16 : CallingConv<[
-  CCIfType<[i16], CCAssignToReg<[AX, BX, CX, DX]>>,
+  CCIfType<[i16], CCAssignToReg<[AX]>>,
   // If we run out of registers, use stack.
   CCIfType<[i16], CCAssignToStack<2, 2>>
 ]>;

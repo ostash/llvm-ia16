@@ -15,11 +15,14 @@ namespace llvm {
 class IA16Subtarget;
 
 class IA16FrameLowering : public TargetFrameLowering {
-  const IA16Subtarget &STI;
+  // const IA16Subtarget &STI;
 
 public:
-  explicit IA16FrameLowering(const IA16Subtarget &STI)
-      : TargetFrameLowering(StackGrowsDown, Align(2), 0), STI(STI) {}
+  // explicit IA16FrameLowering(const IA16Subtarget &STI)
+  //     : TargetFrameLowering(StackGrowsDown, Align(2), 0), STI(STI) {}
+
+  // TODO: check TargetFrameLowering parameters
+  IA16FrameLowering() : TargetFrameLowering(StackGrowsDown, Align(2), 0) {}
 
   void emitPrologue(MachineFunction &MF, MachineBasicBlock &MBB) const override;
   void emitEpilogue(MachineFunction &MF, MachineBasicBlock &MBB) const override;

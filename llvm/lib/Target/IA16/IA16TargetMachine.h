@@ -26,7 +26,7 @@ public:
 
   ~IA16TargetMachine() final;
 
-  // Things that can be overriden from TargetMachine
+  // Things that can be overridden from TargetMachine
 
   const TargetSubtargetInfo *getSubtargetImpl(const Function &F) const final;
 

@@ -1016,6 +1016,8 @@ TargetLoweringBase::TargetLoweringBase(const TargetMachine &tm,
       Libcalls(RuntimeLibcallInfo, STI) {
   initActions();
 
+  // dumpActions();
+
   // Perform these initializations only once.
   MaxStoresPerMemset = MaxStoresPerMemcpy = MaxStoresPerMemmove =
       MaxLoadsPerMemcmp = 8;
@@ -1047,6 +1049,55 @@ TargetLoweringBase::TargetLoweringBase(const TargetMachine &tm,
 
   MinimumBitTestCmps = MinimumBitTestCmpsOverride;
 }
+
+void TargetLoweringBase::dumpActions() const {
+  for (MVT VT : MVT::all_valuetypes()) {
+    VT.print(llvm::errs());
+    llvm::errs() << '\n';
+    for (size_t j = 0; j < std::size(OpActions[VT.SimpleTy]); ++j) {
+
+      if (OpActions[VT.SimpleTy][j] != 0) 
+        llvm::errs() << "OpActions[";
+        llvm::errs() << "][" << j << "] = " << (int)OpActions[VT.SimpleTy][j] << "\n";
+    }
+  }
+
+  // for (size_t i = 0; i < std::size(LoadExtActions); i++) {
+  //   for (size_t j = 0; j < std::size(LoadExtActions[ i]); ++j) {
+  //     if (LoadExtActions[i][j] == 0) 
+  //       llvm::errs() << "LoadExtActions[" << i << "][" << j << "] = " << LoadExtActions[i][j] << "\n";
+  //   }
+  // }
+
+  // for (size_t i = 0; i < std::size(AtomicLoadExtActions); i++) {
+  //   for (size_t j = 0; j < std::size(AtomicLoadExtActions[ i]); ++j) {
+  //     if (AtomicLoadExtActions[i][j] == 0) 
+  //       llvm::errs() << "AtomicLoadExtActions[" << i << "][" << j << "] = " << AtomicLoadExtActions[i][j] << "\n";
+  //   }
+  // }
+
+  // for (size_t i = 0; i < std::size(TruncStoreActions); i++) {
+  //   for (size_t j = 0; j < std::size(TruncStoreActions[ i]); ++j) {
+  //     if (TruncStoreActions[i][j] == 0) 
+  //       llvm::errs() << "TruncStoreActions[" << i << "][" << j << "] = " << TruncStoreActions[i][j] << "\n";
+  //   }
+  // }
+
+  // for (size_t i = 0; i < std::size(IndexedModeActions); i++) {
+  //   for (size_t j = 0; j < std::size(IndexedModeActions[ i]); ++j) {
+  //     if (IndexedModeActions[i][j] == 0) 
+  //       llvm::errs() << "IndexedModeActions[" << i << "][" << j << "] = " << IndexedModeActions[i][j] << "\n";
+  //   }
+  // }
+
+  // for (size_t i = 0; i < std::size(CondCodeActions); i++) {
+  //   for (size_t j = 0; j < std::size(CondCodeActions[ i]); ++j) {
+  //     if (CondCodeActions[i][j] == 0) 
+  //       llvm::errs() << "CondCodeActions[" << i << "][" << j << "] = " << CondCodeActions[i][j] << "\n";
+  //   }
+  // }
+
+} 
 
 // Define the virtual destructor out-of-line to act as a key method to anchor
 // debug info (see coding standards).

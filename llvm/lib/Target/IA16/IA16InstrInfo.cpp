@@ -10,6 +10,8 @@
 //
 //===----------------------------------------------------------------------===//
 
+#if 0
+
 #include "IA16InstrInfo.h"
 #include "IA16.h"
 #include "IA16Subtarget.h"
@@ -24,11 +26,12 @@ using namespace llvm;
 IA16InstrInfo::IA16InstrInfo(const IA16Subtarget &STI)
     : IA16GenInstrInfo(STI, RI), RI() {}
 
-void IA16InstrInfo::copyPhysReg(MachineBasicBlock &MBB,
-                                MachineBasicBlock::iterator I,
-                                const DebugLoc &DL, Register DestReg,
-                                Register SrcReg, bool KillSrc,
-                                bool RenamableDest, bool RenamableSrc) const {
-  BuildMI(MBB, I, DL, get(IA16::MOV16rr), DestReg)
-      .addReg(SrcReg, getKillRegState(KillSrc));
-}
+// void IA16InstrInfo::copyPhysReg(MachineBasicBlock &MBB,
+//                                 MachineBasicBlock::iterator I,
+//                                 const DebugLoc &DL, Register DestReg,
+//                                 Register SrcReg, bool KillSrc,
+//                                 bool RenamableDest, bool RenamableSrc) const {
+//   BuildMI(MBB, I, DL, get(IA16::MOV16rr), DestReg)
+//       .addReg(SrcReg, getKillRegState(KillSrc));
+// }
+#endif

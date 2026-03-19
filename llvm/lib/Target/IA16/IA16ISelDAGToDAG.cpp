@@ -9,7 +9,7 @@
 // This file defines an instruction selector for the IA16 target.
 //
 //===----------------------------------------------------------------------===//
-
+#if 0
 #include "IA16.h"
 #include "IA16TargetMachine.h"
 #include "MCTargetDesc/IA16MCTargetDesc.h"
@@ -72,3 +72,5 @@ FunctionPass *createIA16ISelDag(IA16TargetMachine &TM,
 } // namespace llvm
 
 INITIALIZE_PASS(IA16DAGToDAGISelLegacy, DEBUG_TYPE, PASS_NAME, false, false)
+
+#endif

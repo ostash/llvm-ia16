@@ -365,6 +365,8 @@ public:
     return IsStrictFPEnabled;
   }
 
+  void dumpActions() const;
+
 protected:
   /// Initialize all of the actions to default values.
   void initActions();

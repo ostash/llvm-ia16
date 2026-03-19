@@ -13,7 +13,7 @@
 #ifndef LLVM_LIB_TARGET_IA16_IA16REGISTERINFO_H
 #define LLVM_LIB_TARGET_IA16_IA16REGISTERINFO_H
 
-#include "llvm/CodeGen/TargetRegisterInfo.h"
+// #include "llvm/CodeGen/TargetRegisterInfo.h"
 
 #define GET_REGINFO_HEADER
 #include "IA16GenRegisterInfo.inc"
